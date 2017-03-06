@@ -100,11 +100,14 @@ let NERDTreeAutoCenter = 1
 " Open NERDTree on startup, when no file has been specified
 autocmd VimEnter * if !argc() | NERDTree | endif
 
-" Locate file in hierarchy quickly
-map <leader>T :NERDTreeFind<cr>
+" Locate current file in hierarchy
+map <leader>nf :NERDTreeFind<cr>
+
+" Change NerdTree root to current directory
+nmap <leader>nc :NERDTreeCWD<cr>
 
 " Toogle on/off
-nmap <leader>o :NERDTreeToggle<cr>
+nmap <leader>nt :NERDTreeToggle<cr>
 
 
 "------------------------------------------------------------------------------
