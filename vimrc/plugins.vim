@@ -15,15 +15,16 @@
 
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-fugitive'
-    Plug 'gregsexton/gitv'
+    Plug 'tpope/vim-sensible'
+    " Plug 'gregsexton/gitv'
     Plug 'airblade/vim-gitgutter'
-    Plug 'jiangmiao/auto-pairs'
+    " Plug 'jiangmiao/auto-pairs'
     Plug 'mileszs/ack.vim'
     " Plug 'tpope/vim-vinegar'
 
     Plug 'scrooloose/nerdtree'
     Plug 'scrooloose/nerdcommenter'
-    Plug 'jlanzarotta/bufexplorer'
+    " Plug 'jlanzarotta/bufexplorer'
 
     Plug 'majutsushi/tagbar'
     " Use ctrlp for now, check whether to switch to fzf later
@@ -36,12 +37,14 @@
 
     Plug 'fatih/vim-go'
     if has('nvim')
-        Plug 'Shougo/deoplete.nvim'
+        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+        Plug 'zchee/deoplete-go', { 'do': 'make'}
     else
         Plug 'Shougo/neocomplete'
     endif
     Plug 'Shougo/neosnippet'
     Plug 'Shougo/neosnippet-snippets'
+    Plug 'SirVer/ultisnips'
     " Plug 'Valloric/YouCompleteMe'
     Plug 'scrooloose/syntastic'
 
@@ -61,31 +64,33 @@
     " Plug 'editorconfig/editorconfig-vim'
     call plug#end()
 " }
-"------------------------------------------------------------------------------
-" Custom color scheme
-"------------------------------------------------------------------------------
+
+" *** Color scheme *** {
 try
     colorscheme solarized
+    set background=dark
 catch
+    echom 'colorscheme solarized not found'
 endtry
+ 
+" } color scheme
 
-" junegunn/fzf configuration {
-    if &runtimepath =~ 'fzf.vim'
-        nnoremap <leader>ff :<C-u>:Files<cr>
-        nnoremap <leader>fg :<C-u>:GitFiles<cr>
-        nnoremap <leader>fs :<C-u>:GitFiles?<cr>
-        nnoremap <leader>fb :<C-u>:Buffers<cr>
-        nnoremap <leader>ft :<C-u>:BTags<cr>
-        nnoremap <leader>fh :<C-u>:History<cr>
-    else
-        echo 'fzf not found'
-    endif
+" junegunn/fzf {
+
+if &runtimepath =~ 'fzf.vim'
+    nnoremap <leader>ff :<C-u>:Files<cr>
+    nnoremap <leader>fg :<C-u>:GitFiles<cr>
+    nnoremap <leader>fs :<C-u>:GitFiles?<cr>
+    nnoremap <leader>fb :<C-u>:Buffers<cr>
+    nnoremap <leader>ft :<C-u>:BTags<cr>
+    nnoremap <leader>fh :<C-u>:History<cr>
+else
+    echo 'fzf not found'
+endif
+
 " }
 
-"------------------------------------------------------------------------------
-" NERDTree
-"------------------------------------------------------------------------------
-
+" NERDTree {
 " General properties
 let NERDTreeDirArrows=1
 let NERDTreeMinimalUI=1
@@ -108,6 +113,7 @@ nmap <leader>nc :NERDTreeCWD<cr>
 
 " Toogle on/off
 nmap <leader>nt :NERDTreeToggle<cr>
+" } NERDTree
 
 
 "------------------------------------------------------------------------------
@@ -115,72 +121,67 @@ nmap <leader>nt :NERDTreeToggle<cr>
 "------------------------------------------------------------------------------
 
 " Shortcuts, type <leader>l to quickly navigate to necessary buffer
-map <leader>l :BufExplorer<cr>
-imap <leader>l <esc>:BufExplorer<cr>
-vmap <leader>l <esc>:BufExplorer<cr>
+" map <leader>l :BufExplorer<cr>
+" imap <leader>l <esc>:BufExplorer<cr>
+" vmap <leader>l <esc>:BufExplorer<cr>
 
 
-"------------------------------------------------------------------------------
-" Fugitive
-"------------------------------------------------------------------------------
-map ]] ]c
-map [[ [c
-map <leader>gdi :Gdiff<cr>
-map <leader>gst :Gstatus<cr>
-map <leader>dup :diffupdate<cr>
+" *** Fugitive *** {
+    map ]] ]c
+    map [[ [c
+    map <leader>gdi :Gdiff<cr>
+    map <leader>gst :Gstatus<cr>
+    map <leader>dup :diffupdate<cr>
+" *** Fugitive *** }
 
-"------------------------------------------------------------------------------
-" Syntastic
-"------------------------------------------------------------------------------
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" *** Syntastic *** {
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
 
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+    let g:syntastic_aggregate_errors = 1
+    let g:syntastic_always_populate_loc_list = 0
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
+" *** Syntastic *** }
 
-"------------------------------------------------------------------------------
-" NeoComplete
-"------------------------------------------------------------------------------
+" *** NeoComplete *** {
 
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
+    " Use neocomplete.
+    let g:deoplete#enable_at_startup = 1
+    
+    " Use smartcase.
+    let g:doeplete#enable_smart_case = 1
+    
+    " Set minimum syntax keyword length.
+    let g:deoplete#sources#syntax#min_keyword_length = 2
+    let g:deoplete#lock_buffer_name_pattern = '\*ku\*'
+    
+    " Close popup by <Space>.
+    " inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+    
+    " Plugin key-mappings.
+    inoremap <expr><C-g>     neocomplete#undo_completion()
+    "inoremap <expr><C-l>     neocomplete#complete_common_string()
+    
+    " Recommended key-mappings.
+    " <CR>: close popup and save indent.
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function()
+      return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+    endfunction
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-y>  neocomplete#close_popup()
+    inoremap <expr><C-e>  neocomplete#cancel_popup()
+    " Close popup by <Space>.
+    "inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" Close popup by <Space>.
-" inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-"inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+" *** NeoComplete *** }
 
 " AutoComplPop like behavior.
 let g:neocomplete#enable_auto_select = 1
