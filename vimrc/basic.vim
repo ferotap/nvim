@@ -2,8 +2,37 @@
 
 let mapleader = ","
 let g:mapleader = ","
+
+let g:python3_host_prog='/home/etaphol/.pyenv/versions/neovim3/bin/python'
+
+" Open help in a vertical split
+" autocmd FileType help wincmd L
+
 " *** Basic Settings *** {
+
     set scrolloff=999
+
+    " --- tabs and indent --- {
+        " Use spaces instead of tabs
+        set expandtab
+
+        " Be smart when using tabs ;)
+        set smarttab
+
+        " 1 tab == 4 spaces
+        set shiftwidth=4
+        set tabstop=4
+
+        " Round indent to multiple of 'shiftwidth' for > and < commands
+        set shiftround
+
+    " --- tabs and indent --- }
+
+    " --- display of special characters {
+        set list
+        set listchars=trail:•,precedes:«,extends:»,tab:▸\ 
+    " --- display of special characters }
+
 " *** Basic Settings *** }
 
 " My Mappings {
@@ -18,7 +47,6 @@ let g:mapleader = ","
     inoremap jk <esc>
     inoremap JK <esc>
     nnoremap Y y$
-    nnoremap ö :
     nnoremap <leader>le :set listchars-=eol:↲<CR>
     nnoremap <leader>lE :set listchars+=eol:↲<CR>
     " Fast saving
@@ -26,6 +54,19 @@ let g:mapleader = ","
     imap <Leader>w <ESC>:w<CR>
     vmap <Leader>w <ESC><ESC>:w<CR>
 
+    " --- fi to en keyboard layout --- {
+        nnoremap ö :
+    " --- fi to en keyboard layout --- }
+
+    " --- tabs mappings --- {
+        map <leader>tn :tabnew<cr>
+        map <leader>to :tabonly<cr>
+        map <leader>tc :tabclose<cr>
+        map <leader>tm :tabmove
+        map <leader>tl :tabnext<cr>
+        map <leader>th :tabprevious<cr>
+        map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+    " --- tabs mappings --- }
 " }
 
 " *** Search Settings *** {

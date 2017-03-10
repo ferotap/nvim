@@ -19,16 +19,16 @@
     " Plug 'gregsexton/gitv'
     Plug 'airblade/vim-gitgutter'
     " Plug 'jiangmiao/auto-pairs'
-    Plug 'mileszs/ack.vim'
+    " Plug 'mileszs/ack.vim'
     " Plug 'tpope/vim-vinegar'
 
-    Plug 'scrooloose/nerdtree'
-    Plug 'scrooloose/nerdcommenter'
+    " Plug 'scrooloose/nerdtree'
+    " Plug 'scrooloose/nerdcommenter'
     " Plug 'jlanzarotta/bufexplorer'
 
     Plug 'majutsushi/tagbar'
     " Use ctrlp for now, check whether to switch to fzf later
-    Plug 'ctrlpvim/ctrlp.vim'
+    " Plug 'ctrlpvim/ctrlp.vim'
     " Plugin outside ~/.vim/plugged with post-update hook
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
@@ -36,15 +36,16 @@
     Plug 'noah/vim256-color'
 
     Plug 'fatih/vim-go'
+    Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
     if has('nvim')
         Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
         Plug 'zchee/deoplete-go', { 'do': 'make'}
     else
         Plug 'Shougo/neocomplete'
     endif
-    Plug 'Shougo/neosnippet'
-    Plug 'Shougo/neosnippet-snippets'
-    Plug 'SirVer/ultisnips'
+    " Plug 'Shougo/neosnippet'
+    " Plug 'Shougo/neosnippet-snippets'
+    " Plug 'SirVer/ultisnips'
     " Plug 'Valloric/YouCompleteMe'
     Plug 'scrooloose/syntastic'
 
@@ -146,15 +147,10 @@ nmap <leader>nt :NERDTreeToggle<cr>
     let g:syntastic_check_on_wq = 0
 " *** Syntastic *** }
 
-" *** NeoComplete *** {
+" *** Deoplete *** {
 
-    " Use neocomplete.
     let g:deoplete#enable_at_startup = 1
-    
-    " Use smartcase.
     let g:doeplete#enable_smart_case = 1
-    
-    " Set minimum syntax keyword length.
     let g:deoplete#sources#syntax#min_keyword_length = 2
     let g:deoplete#lock_buffer_name_pattern = '\*ku\*'
     
@@ -162,76 +158,63 @@ nmap <leader>nt :NERDTreeToggle<cr>
     " inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
     
     " Plugin key-mappings.
-    inoremap <expr><C-g>     neocomplete#undo_completion()
+    " inoremap <expr><C-g>     neocomplete#undo_completion()
     "inoremap <expr><C-l>     neocomplete#complete_common_string()
     
     " Recommended key-mappings.
     " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    function! s:my_cr_function()
-      return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-    endfunction
-    " <TAB>: completion.
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-y>  neocomplete#close_popup()
-    inoremap <expr><C-e>  neocomplete#cancel_popup()
+    " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    " function! s:my_cr_function()
+    "   return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+    " endfunction
+    " " <TAB>: completion.
+    " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " " <C-h>, <BS>: close popup and delete backword char.
+    " inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    " inoremap <expr><C-y>  neocomplete#close_popup()
+    " inoremap <expr><C-e>  neocomplete#cancel_popup()
     " Close popup by <Space>.
     "inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
-" *** NeoComplete *** }
 
 " AutoComplPop like behavior.
-let g:neocomplete#enable_auto_select = 1
+" let g:neocomplete#enable_auto_select = 1
 
 " Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Enable heavy omni completion.
 "if !exists('g:neocomplete#sources#omni#input_patterns')
 "  let g:neocomplete#sources#omni#input_patterns = {}
 "endif
 "let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.'
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.'
-
+" if !exists('g:neocomplete#force_omni_input_patterns')
+"   let g:neocomplete#force_omni_input_patterns = {}
+" endif
+" let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.'
+" 
 "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
+" *** Deoplete *** }
 
+" *** Deoplete-go *** {
+    let g:deoplete#sources#go#gocode_binary = $GOPATH . '/bin/gocode'
+    " let g:deoplete#sources#go#package_dot = 1
+    " let g:deoplete#sources#go#sort_class
+" *** Deoplete-go *** }
 "------------------------------------------------------------------------------
 " Vim-go
 "------------------------------------------------------------------------------
 let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "gofmt" "Explicited the formater plugin (gofmt, goimports, goreturn...)
 
-" Show a list of interfaces which is implemented by the type under your cursor
-au FileType go nmap <Leader>s <Plug>(go-implements)
-
-" Show type info for the word under your cursor
-au FileType go nmap <Leader>i <Plug>(go-info)
-
-" Open the relevant Godoc for the word under the cursor
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-
-" Open the Godoc in browser
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-
-" Run/build/test/coverage
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
 
 " By default syntax-highlighting for Functions, Methods and Structs is disabled.
 " Let's enable them!
