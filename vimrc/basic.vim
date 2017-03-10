@@ -3,6 +3,10 @@
 let mapleader = ","
 let g:mapleader = ","
 
+" disable python2 support
+let g:loaded_python_provider=1
+
+" use the specific python3 version. Managed by pyenv.
 let g:python3_host_prog='/home/etaphol/.pyenv/versions/neovim3/bin/python'
 
 " Open help in a vertical split

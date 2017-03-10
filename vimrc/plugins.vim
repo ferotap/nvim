@@ -15,7 +15,9 @@
 
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-fugitive'
-    Plug 'tpope/vim-sensible'
+    if !has('nvim')
+        Plug 'tpope/vim-sensible'
+    endif
     " Plug 'gregsexton/gitv'
     Plug 'airblade/vim-gitgutter'
     " Plug 'jiangmiao/auto-pairs'
@@ -38,7 +40,7 @@
     Plug 'fatih/vim-go'
     Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
     if has('nvim')
-        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+        Plug 'Shougo/deoplete', { 'do': ':UpdateRemotePlugins' }
         Plug 'zchee/deoplete-go', { 'do': 'make'}
     else
         Plug 'Shougo/neocomplete'
@@ -93,27 +95,27 @@ endif
 
 " NERDTree {
 " General properties
-let NERDTreeDirArrows=1
-let NERDTreeMinimalUI=1
-let NERDTreeIgnore=['\.o$', '\.pyc$', '\.php\~$']
-let NERDTreeWinSize = 35
+" let NERDTreeDirArrows=1
+" let NERDTreeMinimalUI=1
+" let NERDTreeIgnore=['\.o$', '\.pyc$', '\.php\~$']
+" let NERDTreeWinSize = 35
 
 " Make sure that when NT root is changed, Vim's pwd is also updated
-let NERDTreeChDirMode = 2
-let NERDTreeShowLineNumbers = 1
-let NERDTreeAutoCenter = 1
+" let NERDTreeChDirMode = 2
+" let NERDTreeShowLineNumbers = 1
+" let NERDTreeAutoCenter = 1
 
 " Open NERDTree on startup, when no file has been specified
-autocmd VimEnter * if !argc() | NERDTree | endif
+" autocmd VimEnter * if !argc() | NERDTree | endif
 
 " Locate current file in hierarchy
-map <leader>nf :NERDTreeFind<cr>
+" map <leader>nf :NERDTreeFind<cr>
 
 " Change NerdTree root to current directory
-nmap <leader>nc :NERDTreeCWD<cr>
+" nmap <leader>nc :NERDTreeCWD<cr>
 
 " Toogle on/off
-nmap <leader>nt :NERDTreeToggle<cr>
+" nmap <leader>nt :NERDTreeToggle<cr>
 " } NERDTree
 
 
