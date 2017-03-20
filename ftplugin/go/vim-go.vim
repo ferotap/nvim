@@ -20,7 +20,3 @@ nmap <buffer> <leader>gtf <Plug>(go-test-func)
 nmap <buffer> <leader>gtc <Plug>(go-test-compile)
 nmap <buffer> <leader>gc <Plug>(go-coverage)
 
-inoremap <buffer> ö {
-inoremap <buffer> ä }
-inoremap <buffer> Ö [
-inoremap <buffer> Ä ]

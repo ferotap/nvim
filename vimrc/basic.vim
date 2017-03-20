@@ -12,19 +12,6 @@ let g:python3_host_prog='/home/etaphol/.pyenv/versions/neovim3/bin/python'
 " Open help in a vertical split
 " autocmd FileType help wincmd L
 
-" *** quickfix and locaction lists *** {
-
-map <leader>lo :lopen<CR>
-map <leader>lc :lclose<CR>
-map <leader>lj :lnext<CR>
-map <leader>lk :lprev<CR>
-
-map <leader>co :copen<CR>
-map <leader>cc :cclose<CR>
-map <leader>cj :cnext<CR>
-map <leader>ck :cprev<CR>
-
-" }
 " *** Basic Settings *** {
 
     set scrolloff=999
@@ -49,10 +36,22 @@ map <leader>ck :cprev<CR>
         set list
         set listchars=trail:•,precedes:«,extends:»,tab:▸\ 
     " --- display of special characters }
+    "
+    " --- Wild Menu --- {
+        set wildmenu                    " Show list instead of just completing
+        set wildmode=list:longest,full
+        " Ignore compiled files
+        set wildignore=*.o,*~,*.pyc
+        if has("win16") || has("win32")
+            set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Storeelse
+        else
+            set wildignore+=.git\*,.hg\*,.svn\*
+        endif
+    " }
 
 " *** Basic Settings *** }
 
-" My Mappings {
+" *** My Mappings *** {
     " exapnd %% to current buffer dir
     cabbr <expr> %% expand('%:p:h')
     " capitalize the word last edited
@@ -66,22 +65,43 @@ map <leader>ck :cprev<CR>
     nnoremap Y y$
     nnoremap <leader>le :set listchars-=eol:↲<CR>
     nnoremap <leader>lE :set listchars+=eol:↲<CR>
+    nnoremap ö :
     " Fast saving
     map <Leader>w :w<CR>
     imap <Leader>w <ESC>:w<CR>
     vmap <Leader>w <ESC><ESC>:w<CR>
 
-    " --- fi to en keyboard layout --- {
-        nnoremap ö :
-    " --- fi to en keyboard layout --- }
+    " --- remap finnish kbd for programming --- {
+        function! SetProgrammingKbd()
+            inoremap <buffer> ö {
+            inoremap <buffer> ä }
+            inoremap <buffer> Ö [
+            inoremap <buffer> Ä ]
+        endfunction
+        autocmd FileType go,python,c,cpp,java call SetProgrammingKbd()
+    " }
+
+    " --- quickfix and locaction lists --- {
+
+        map <leader>lh :lopen<CR>
+        map <leader>ll :lclose<CR>
+        map <leader>lj :lnext<CR>
+        map <leader>lk :lprev<CR>
+
+        map <leader>ch :copen<CR>
+        map <leader>cl :cclose<CR>
+        map <leader>cj :cnext<CR>
+        map <leader>ck :cprev<CR>
+
+    " }
 
     " --- tabs mappings --- {
-        map <leader>tn :tabnew<cr>
+        map <leader>th :tabnew<cr>
         map <leader>to :tabonly<cr>
-        map <leader>tc :tabclose<cr>
+        map <leader>tl :tabclose<cr>
         map <leader>tm :tabmove
-        map <leader>tl :tabnext<cr>
-        map <leader>th :tabprevious<cr>
+        map <leader>tj :tabnext<cr>
+        map <leader>tk :tabprevious<cr>
         map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
     " --- tabs mappings --- }
 " }
