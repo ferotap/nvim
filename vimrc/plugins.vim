@@ -37,10 +37,10 @@
 
     Plug 'noah/vim256-color'
 
-    Plug 'fatih/vim-go'
+    Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
     Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
     if has('nvim')
-        Plug 'Shougo/deoplete', { 'do': ':UpdateRemotePlugins' }
+        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
         Plug 'zchee/deoplete-go', { 'do': 'make'}
     else
         Plug 'Shougo/neocomplete'
@@ -155,14 +155,27 @@ endif
     let g:doeplete#enable_smart_case = 1
     let g:deoplete#sources#syntax#min_keyword_length = 2
     let g:deoplete#lock_buffer_name_pattern = '\*ku\*'
-    
+
+    " Let <Tab> also do completion
+    inoremap <silent><expr> <Tab>
+    \ pumvisible() ? "\<C-n>" :
+    \ deoplete#mappings#manual_complete()
+
+    " Close the documentation window when completion is done
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+    " --- Deoplete-go --- {
+        let g:deoplete#sources#go#gocode_binary = $GOPATH . '/bin/gocode'
+        " let g:deoplete#sources#go#package_dot = 1
+        " let g:deoplete#sources#go#sort_class
+    " --- Deoplete-go --- }
+
     " Close popup by <Space>.
     " inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-    
+
     " Plugin key-mappings.
     " inoremap <expr><C-g>     neocomplete#undo_completion()
     "inoremap <expr><C-l>     neocomplete#complete_common_string()
-    
+
     " Recommended key-mappings.
     " <CR>: close popup and save indent.
     " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -206,11 +219,6 @@ endif
 
 " *** Deoplete *** }
 
-" *** Deoplete-go *** {
-    let g:deoplete#sources#go#gocode_binary = $GOPATH . '/bin/gocode'
-    " let g:deoplete#sources#go#package_dot = 1
-    " let g:deoplete#sources#go#sort_class
-" *** Deoplete-go *** }
 "------------------------------------------------------------------------------
 " Vim-go
 "------------------------------------------------------------------------------

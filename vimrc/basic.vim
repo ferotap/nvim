@@ -12,6 +12,19 @@ let g:python3_host_prog='/home/etaphol/.pyenv/versions/neovim3/bin/python'
 " Open help in a vertical split
 " autocmd FileType help wincmd L
 
+" *** quickfix and locaction lists *** {
+
+map <leader>lo :lopen<CR>
+map <leader>lc :lclose<CR>
+map <leader>lj :lnext<CR>
+map <leader>lk :lprev<CR>
+
+map <leader>co :copen<CR>
+map <leader>cc :cclose<CR>
+map <leader>cj :cnext<CR>
+map <leader>ck :cprev<CR>
+
+" }
 " *** Basic Settings *** {
 
     set scrolloff=999
