@@ -14,7 +14,7 @@ let g:python3_host_prog='/home/etaphol/.pyenv/versions/neovim3/bin/python'
 
 " *** Basic Settings *** {
 
-    set scrolloff=999
+    set scrolloff=15
 
     " --- tabs and indent --- {
         " Use spaces instead of tabs
@@ -122,7 +122,8 @@ let g:python3_host_prog='/home/etaphol/.pyenv/versions/neovim3/bin/python'
 if has('statusline')
     set laststatus=2
 
-    set statusline=%<%t\                     " Filename
+    " set statusline=%<%t\                     " Filename
+    set statusline=%f                        " Filename
     set statusline+=(%{&fo})                 " formatting options
     set statusline+=%w%h%m                   " Options
     set statusline+=%#warningmsg#

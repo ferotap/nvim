@@ -159,7 +159,7 @@ endif
     " Let <Tab> also do completion
     inoremap <silent><expr> <Tab>
     \ pumvisible() ? "\<C-n>" :
-    \ deoplete#mappings#manual_complete()
+    \ "\<TAB>"
 
     " Close the documentation window when completion is done
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
