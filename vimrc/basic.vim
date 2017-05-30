@@ -14,6 +14,7 @@ let g:python3_host_prog='/home/etaphol/.pyenv/versions/neovim3/bin/python'
 
 " *** Basic Settings *** {
 
+    set pastetoggle=<F2>
     set scrolloff=15
 
     " --- tabs and indent --- {

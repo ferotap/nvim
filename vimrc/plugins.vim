@@ -18,6 +18,8 @@
     if !has('nvim')
         Plug 'tpope/vim-sensible'
     endif
+    "
+    Plug 'neomake/neomake'
     " Plug 'gregsexton/gitv'
     Plug 'airblade/vim-gitgutter'
     " Plug 'jiangmiao/auto-pairs'
@@ -219,11 +221,10 @@ endif
 
 " *** Deoplete *** }
 
+" *** Vim-go *** {
 "------------------------------------------------------------------------------
-" Vim-go
-"------------------------------------------------------------------------------
-let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = "gofmt" "Explicited the formater plugin (gofmt, goimports, goreturn...)
+" let g:go_fmt_fail_silently = 1
+let g:go_fmt_command = "goimports" "Explicited the formater plugin (gofmt, goimports, goreturn...)
 
 
 " By default syntax-highlighting for Functions, Methods and Structs is disabled.
@@ -231,6 +232,7 @@ let g:go_fmt_command = "gofmt" "Explicited the formater plugin (gofmt, goimports
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
+let g:go_list_type = "location"
 
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_type_go = {  
@@ -260,3 +262,4 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
+" *** Vim-go *** }
