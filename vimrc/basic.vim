@@ -58,6 +58,12 @@ let g:python3_host_prog='/home/etaphol/.pyenv/versions/neovim3/bin/python'
     " capitalize the word last edited
     inoremap <C-y> <esc>gUiw`]a
 
+    " visual line down/up/end/start for wrapped lines
+    noremap  <buffer> <silent> k gk
+    noremap  <buffer> <silent> j gj
+    noremap  <buffer> <silent> 0 g0
+    noremap  <buffer> <silent> $ g$
+
     inoremap <C-x> <nop>
     inoremap kj <esc>
     inoremap KJ <esc>
