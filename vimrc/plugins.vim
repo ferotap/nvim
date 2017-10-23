@@ -26,7 +26,7 @@
     " Plug 'mileszs/ack.vim'
     " Plug 'tpope/vim-vinegar'
 
-    " Plug 'scrooloose/nerdtree'
+    Plug 'scrooloose/nerdtree'
     " Plug 'scrooloose/nerdcommenter'
     " Plug 'jlanzarotta/bufexplorer'
 
@@ -97,27 +97,27 @@ endif
 
 " NERDTree {
 " General properties
-" let NERDTreeDirArrows=1
-" let NERDTreeMinimalUI=1
-" let NERDTreeIgnore=['\.o$', '\.pyc$', '\.php\~$']
-" let NERDTreeWinSize = 35
+let NERDTreeDirArrows=1
+let NERDTreeMinimalUI=1
+let NERDTreeIgnore=['\.o$', '\.pyc$', '\.php\~$']
+let NERDTreeWinSize = 35
 
 " Make sure that when NT root is changed, Vim's pwd is also updated
-" let NERDTreeChDirMode = 2
-" let NERDTreeShowLineNumbers = 1
-" let NERDTreeAutoCenter = 1
+let NERDTreeChDirMode = 2
+let NERDTreeShowLineNumbers = 1
+let NERDTreeAutoCenter = 1
 
 " Open NERDTree on startup, when no file has been specified
-" autocmd VimEnter * if !argc() | NERDTree | endif
+autocmd VimEnter * if !argc() | NERDTree | endif
 
 " Locate current file in hierarchy
-" map <leader>nf :NERDTreeFind<cr>
+map <leader>nf :NERDTreeFind<cr>
 
 " Change NerdTree root to current directory
-" nmap <leader>nc :NERDTreeCWD<cr>
+nmap <leader>nc :NERDTreeCWD<cr>
 
 " Toogle on/off
-" nmap <leader>nt :NERDTreeToggle<cr>
+nmap <leader>nt :NERDTreeToggle<cr>
 " } NERDTree
 
 

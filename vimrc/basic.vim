@@ -16,6 +16,7 @@ let g:python3_host_prog='/home/etaphol/.pyenv/versions/neovim3/bin/python'
 
     set pastetoggle=<F2>
     set scrolloff=15
+    set showmatch
 
     " --- tabs and indent --- {
         " Use spaces instead of tabs
@@ -146,7 +147,7 @@ if has('statusline')
     set statusline+=\ [%Y]            " Filetype
     " set statusline+=\ [%{getcwd()}]          " Current dir
     " set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
-    set statusline+=%=%-14.(%l/%L,%c%V%)\      " Right aligned file nav info
+    set statusline+=%=%-14.(%o:%l/%L,%c%V%)\      " Right aligned file nav info
 endif
 
 " Format the status line
