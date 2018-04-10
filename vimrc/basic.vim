@@ -66,10 +66,7 @@ let g:python3_host_prog='/home/etaphol/.pyenv/versions/neovim3/bin/python'
     noremap  <buffer> <silent> $ g$
 
     inoremap <C-x> <nop>
-    inoremap kj <esc>
-    inoremap KJ <esc>
     inoremap jk <esc>
-    inoremap JK <esc>
     nnoremap Y y$
     nnoremap <leader>le :set listchars-=eol:↲<CR>
     nnoremap <leader>lE :set listchars+=eol:↲<CR>

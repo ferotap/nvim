@@ -1,3 +1,6 @@
+" don't use vim-go default mappings
+let g:go_def_mapping_enabled = 0
+
 set number
 
 " Show a list of interfaces which is implemented by the type under your cursor
@@ -31,3 +34,4 @@ nmap <buffer> <leader>gtf <Plug>(go-test-func)
 nmap <buffer> <leader>gtc <Plug>(go-test-compile)
 nmap <buffer> <leader>gc <Plug>(go-coverage)
 
+autocmd BufRead,BufNewFile *_test.go nmap <buffer> <leader>gb <Plug>(go-test-compile)

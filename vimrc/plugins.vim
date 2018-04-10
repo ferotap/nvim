@@ -67,6 +67,8 @@
     Plug 'vim-pandoc/vim-pandoc-after'
 
     " Plug 'editorconfig/editorconfig-vim'
+    " Typescript plugins
+    Plug 'leafgarland/typescript-vim'
     call plug#end()
 " }
 
@@ -263,3 +265,7 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 " *** Vim-go *** }
+"
+" *** Typescript {
+
+" *** typescript }
