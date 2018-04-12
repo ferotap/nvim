@@ -219,11 +219,11 @@ endif
 
 " *** Deoplete *** }
 
-"------------------------------------------------------------------------------
-" Vim-go
-"------------------------------------------------------------------------------
+
+" Vim-go {
 let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = "gofmt" "Explicited the formater plugin (gofmt, goimports, goreturn...)
+let g:go_fmt_command = "goimports"
+" Vim-go }
 
 
 " By default syntax-highlighting for Functions, Methods and Structs is disabled.
