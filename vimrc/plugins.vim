@@ -18,13 +18,15 @@
     if !has('nvim')
         Plug 'tpope/vim-sensible'
     endif
+    "
+    Plug 'neomake/neomake'
     " Plug 'gregsexton/gitv'
     Plug 'airblade/vim-gitgutter'
     " Plug 'jiangmiao/auto-pairs'
     " Plug 'mileszs/ack.vim'
     " Plug 'tpope/vim-vinegar'
 
-    " Plug 'scrooloose/nerdtree'
+    Plug 'scrooloose/nerdtree'
     " Plug 'scrooloose/nerdcommenter'
     " Plug 'jlanzarotta/bufexplorer'
 
@@ -65,6 +67,8 @@
     Plug 'vim-pandoc/vim-pandoc-after'
 
     " Plug 'editorconfig/editorconfig-vim'
+    " Typescript plugins
+    Plug 'leafgarland/typescript-vim'
     call plug#end()
 " }
 
@@ -95,27 +99,27 @@ endif
 
 " NERDTree {
 " General properties
-" let NERDTreeDirArrows=1
-" let NERDTreeMinimalUI=1
-" let NERDTreeIgnore=['\.o$', '\.pyc$', '\.php\~$']
-" let NERDTreeWinSize = 35
+let NERDTreeDirArrows=1
+let NERDTreeMinimalUI=1
+let NERDTreeIgnore=['\.o$', '\.pyc$', '\.php\~$']
+let NERDTreeWinSize = 35
 
 " Make sure that when NT root is changed, Vim's pwd is also updated
-" let NERDTreeChDirMode = 2
-" let NERDTreeShowLineNumbers = 1
-" let NERDTreeAutoCenter = 1
+let NERDTreeChDirMode = 2
+let NERDTreeShowLineNumbers = 1
+let NERDTreeAutoCenter = 1
 
 " Open NERDTree on startup, when no file has been specified
-" autocmd VimEnter * if !argc() | NERDTree | endif
+autocmd VimEnter * if !argc() | NERDTree | endif
 
 " Locate current file in hierarchy
-" map <leader>nf :NERDTreeFind<cr>
+map <leader>nf :NERDTreeFind<cr>
 
 " Change NerdTree root to current directory
-" nmap <leader>nc :NERDTreeCWD<cr>
+nmap <leader>nc :NERDTreeCWD<cr>
 
 " Toogle on/off
-" nmap <leader>nt :NERDTreeToggle<cr>
+nmap <leader>nt :NERDTreeToggle<cr>
 " } NERDTree
 
 
@@ -231,6 +235,7 @@ let g:go_fmt_command = "goimports"
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
+let g:go_list_type = "location"
 
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_type_go = {  
@@ -260,3 +265,8 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
+" *** Vim-go *** }
+"
+" *** Typescript {
+
+" *** typescript }

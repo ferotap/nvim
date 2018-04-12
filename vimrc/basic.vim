@@ -14,7 +14,9 @@ let g:python3_host_prog=$HOME.'/.pyenv/versions/neovim3/bin/python'
 
 " *** Basic Settings *** {
 
+    set pastetoggle=<F2>
     set scrolloff=15
+    set showmatch
 
     " --- tabs and indent --- {
         " Use spaces instead of tabs
@@ -57,11 +59,14 @@ let g:python3_host_prog=$HOME.'/.pyenv/versions/neovim3/bin/python'
     " capitalize the word last edited
     inoremap <C-y> <esc>gUiw`]a
 
+    " visual line down/up/end/start for wrapped lines
+    noremap  <buffer> <silent> k gk
+    noremap  <buffer> <silent> j gj
+    noremap  <buffer> <silent> 0 g0
+    noremap  <buffer> <silent> $ g$
+
     inoremap <C-x> <nop>
-    inoremap kj <esc>
-    inoremap KJ <esc>
     inoremap jk <esc>
-    inoremap JK <esc>
     nnoremap Y y$
     nnoremap <leader>le :set listchars-=eol:↲<CR>
     nnoremap <leader>lE :set listchars+=eol:↲<CR>
@@ -139,7 +144,7 @@ if has('statusline')
     set statusline+=\ [%Y]            " Filetype
     " set statusline+=\ [%{getcwd()}]          " Current dir
     " set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
-    set statusline+=%=%-14.(%l/%L,%c%V%)\      " Right aligned file nav info
+    set statusline+=%=%-14.(%o:%l/%L,%c%V%)\      " Right aligned file nav info
 endif
 
 " Format the status line
