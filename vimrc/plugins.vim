@@ -19,7 +19,7 @@
         Plug 'tpope/vim-sensible'
     endif
     "
-    Plug 'neomake/neomake'
+    " Plug 'neomake/neomake'
     " Plug 'gregsexton/gitv'
     Plug 'airblade/vim-gitgutter'
     " Plug 'jiangmiao/auto-pairs'
@@ -51,7 +51,8 @@
     " Plug 'Shougo/neosnippet-snippets'
     " Plug 'SirVer/ultisnips'
     " Plug 'Valloric/YouCompleteMe'
-    Plug 'scrooloose/syntastic'
+    " Plug 'scrooloose/syntastic'
+    Plug 'w0rp/ale'
 
     " javascript
     " Plug 'pangloss/vim-javascript'
@@ -132,6 +133,9 @@ nmap <leader>nt :NERDTreeToggle<cr>
 " imap <leader>l <esc>:BufExplorer<cr>
 " vmap <leader>l <esc>:BufExplorer<cr>
 
+" *** ale *** {
+    let g:ale_open_list = 1
+" *** ale *** }
 
 " *** Fugitive *** {
     map ]] ]c
@@ -143,14 +147,14 @@ nmap <leader>nt :NERDTreeToggle<cr>
 
 " *** Syntastic *** {
     set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
+    " set statusline+=%{SyntasticStatuslineFlag()}
+    " set statusline+=%*
 
-    let g:syntastic_aggregate_errors = 1
-    let g:syntastic_always_populate_loc_list = 0
-    let g:syntastic_auto_loc_list = 1
-    let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 0
+    " let g:syntastic_aggregate_errors = 1
+    " let g:syntastic_always_populate_loc_list = 0
+    " let g:syntastic_auto_loc_list = 1
+    " let g:syntastic_check_on_open = 1
+    " let g:syntastic_check_on_wq = 0
 " *** Syntastic *** }
 
 " *** Deoplete *** {
