@@ -135,6 +135,9 @@ nmap <leader>nt :NERDTreeToggle<cr>
 
 " *** ale *** {
     let g:ale_open_list = 1
+    let g:ale_linters = {
+    \   'go': ['gometalinter --disable-all'],
+    \}
 " *** ale *** }
 
 " *** Fugitive *** {
