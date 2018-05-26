@@ -13,6 +13,7 @@
 
     call plug#begin(s:plugin_dir)
 
+    " Plug 'c0r73x/neotags.nvim'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-fugitive'
     if !has('nvim')
@@ -37,7 +38,8 @@
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
 
-    Plug 'noah/vim256-color'
+    Plug 'altercation/vim-colors-solarized'
+    " Plug 'noah/vim256-color'
 
     Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
     Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
@@ -272,6 +274,19 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
+
+let g:tagbar_type_groovy = {
+    \ 'ctagstype' : 'groovy',
+    \ 'kinds'     : [
+        \ 'p:package:1',
+        \ 'c:classes',
+        \ 'i:interfaces',
+        \ 't:traits',
+        \ 'e:enums',
+        \ 'm:methods',
+        \ 'f:fields:1'
+    \ ]
+    \ }
 " *** Vim-go *** }
 "
 " *** Typescript {
