@@ -32,6 +32,7 @@
     " Plug 'jlanzarotta/bufexplorer'
 
     Plug 'majutsushi/tagbar'
+    Plug 'ludovicchabant/vim-gutentags'
     " Use ctrlp for now, check whether to switch to fzf later
     " Plug 'ctrlpvim/ctrlp.vim'
     " Plugin outside ~/.vim/plugged with post-update hook
@@ -287,7 +288,9 @@ let g:tagbar_type_groovy = {
         \ 'f:fields:1'
     \ ]
     \ }
-" *** Vim-go *** }
+" *** Gutentags {
+let g:gutentags_project_root = ['jenkins-init.groovy']
+" *** Gutentags }
 "
 " *** Typescript {
 
