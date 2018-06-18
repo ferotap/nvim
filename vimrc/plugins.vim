@@ -32,7 +32,7 @@
     " Plug 'jlanzarotta/bufexplorer'
 
     Plug 'majutsushi/tagbar'
-    Plug 'ludovicchabant/vim-gutentags'
+    " Plug 'ludovicchabant/vim-gutentags'
     " Use ctrlp for now, check whether to switch to fzf later
     " Plug 'ctrlpvim/ctrlp.vim'
     " Plugin outside ~/.vim/plugged with post-update hook
@@ -50,6 +50,7 @@
     else
         Plug 'Shougo/neocomplete'
     endif
+    Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
     " Plug 'Shougo/neosnippet'
     " Plug 'Shougo/neosnippet-snippets'
     " Plug 'SirVer/ultisnips'
@@ -71,6 +72,10 @@
     Plug 'vim-pandoc/vim-pandoc-after'
 
     " Plug 'editorconfig/editorconfig-vim'
+    "
+    " Robot framework
+    Plug 'mfukar/robotframework-vim'
+
     " Typescript plugins
     Plug 'leafgarland/typescript-vim'
     call plug#end()
@@ -239,6 +244,29 @@ let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "goimports"
 " Vim-go }
 
+" Language client {
+    " Automatically start language servers.
+    let g:LanguageClient_autoStart = 1
+
+    " " Required for operations modifying multiple buffers like rename.
+    set hidden
+
+    let g:LanguageClient_serverCommands = {
+        \ 'groovy': ['java', '-jar', '$HOME/work/github.com/palantir/language-servers/groovy-language-server/build/libs/groovy-language-server-0.5.4.jar'],
+        \ 'javascript': ['javascript-typescript-stdio'],
+        \ 'go': ['go-langserver'],
+        \ }
+
+  augroup LanguageClient_config
+    autocmd!
+    autocmd User LanguageClientStarted setlocal signcolumn=yes
+    autocmd User LanguageClientStopped setlocal signcolumn=auto
+  augroup END
+
+  nnoremap <leader>sh :LanguageClientStart
+  nnoremap <leader>sl :LanguageClientStop
+  nnoremap <leader>sd call LanguageClient_textDocument_definition()
+" Language client }
 
 " By default syntax-highlighting for Functions, Methods and Structs is disabled.
 " Let's enable them!
@@ -248,7 +276,7 @@ let g:go_highlight_structs = 1
 let g:go_list_type = "location"
 
 nmap <F8> :TagbarToggle<CR>
-let g:tagbar_type_go = {  
+let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
     \ 'kinds'     : [
         \ 'p:package',
@@ -289,7 +317,7 @@ let g:tagbar_type_groovy = {
     \ ]
     \ }
 " *** Gutentags {
-let g:gutentags_project_root = ['jenkins-init.groovy']
+" let g:gutentags_project_root = ['jenkins-init.groovy']
 " *** Gutentags }
 "
 " *** Typescript {

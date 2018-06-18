@@ -10,7 +10,7 @@ let g:loaded_python_provider=1
 let g:python3_host_prog=$HOME.'/venv/p3/bin/python'
 
 " Open help in a vertical split
-" autocmd FileType help wincmd L
+autocmd FileType help wincmd L
 
 " *** Basic Settings *** {
 
