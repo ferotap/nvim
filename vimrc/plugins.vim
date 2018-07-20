@@ -254,7 +254,6 @@ let g:go_fmt_command = "goimports"
     let g:LanguageClient_serverCommands = {
         \ 'groovy': ['java', '-jar', '$HOME/work/github.com/palantir/language-servers/groovy-language-server/build/libs/groovy-language-server-0.5.4.jar'],
         \ 'javascript': ['javascript-typescript-stdio'],
-        \ 'go': ['go-langserver'],
         \ }
 
   augroup LanguageClient_config
