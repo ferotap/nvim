@@ -11,7 +11,6 @@ let g:python3_host_prog=$HOME.'/venv/p3/bin/python'
 
 " Open help in a vertical split
 autocmd FileType help wincmd L
-
 " *** Basic Settings *** {
 
     set pastetoggle=<F2>
@@ -121,6 +120,18 @@ autocmd FileType help wincmd L
       nnoremap <silent> <C-L>
         \ :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
     endif
+    " Search for selected text, forwards or backwards.
+    vnoremap <silent> * :<C-U>
+      \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+      \gvy/<C-R><C-R>=substitute(
+      \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+      \gV:call setreg('"', old_reg, old_regtype)<CR>
+    vnoremap <silent> # :<C-U>
+      \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+      \gvy?<C-R><C-R>=substitute(
+      \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+      \gV:call setreg('"', old_reg, old_regtype)<CR>
+
 " *** Search Settings *** }
 
 " Status Line {
