@@ -242,6 +242,12 @@ nmap <leader>nt :NERDTreeToggle<cr>
 " Vim-go {
 let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "goimports"
+" By default syntax-highlighting for Functions, Methods and Structs is disabled.
+" Let's enable them!
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_list_type = "location"
 " Vim-go }
 
 " Language client {
@@ -267,12 +273,6 @@ let g:go_fmt_command = "goimports"
   nnoremap <leader>sd call LanguageClient_textDocument_definition()
 " Language client }
 
-" By default syntax-highlighting for Functions, Methods and Structs is disabled.
-" Let's enable them!
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_list_type = "location"
 
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_type_go = {
