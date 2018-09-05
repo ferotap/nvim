@@ -119,7 +119,9 @@ let NERDTreeShowLineNumbers = 1
 let NERDTreeAutoCenter = 1
 
 " Open NERDTree on startup, when no file has been specified
-autocmd VimEnter * if !argc() | NERDTree | endif
+if !exists("g:gui_oni")
+    autocmd VimEnter * if !argc() | NERDTree | endif
+endif
 
 " Locate current file in hierarchy
 map <leader>nf :NERDTreeFind<cr>
