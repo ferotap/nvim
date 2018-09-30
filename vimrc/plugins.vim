@@ -13,9 +13,9 @@
 
     call plug#begin(s:plugin_dir)
 
-    " Plug 'c0r73x/neotags.nvim'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-fugitive'
+    " Plug 'tpope/vim-vinegar'
     if !has('nvim')
         Plug 'tpope/vim-sensible'
     endif
@@ -23,19 +23,12 @@
     " Plug 'neomake/neomake'
     " Plug 'gregsexton/gitv'
     Plug 'airblade/vim-gitgutter'
-    " Plug 'jiangmiao/auto-pairs'
-    " Plug 'mileszs/ack.vim'
-    " Plug 'tpope/vim-vinegar'
 
     Plug 'scrooloose/nerdtree'
     " Plug 'scrooloose/nerdcommenter'
     " Plug 'jlanzarotta/bufexplorer'
 
     Plug 'majutsushi/tagbar'
-    " Plug 'ludovicchabant/vim-gutentags'
-    " Use ctrlp for now, check whether to switch to fzf later
-    " Plug 'ctrlpvim/ctrlp.vim'
-    " Plugin outside ~/.vim/plugged with post-update hook
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
 
@@ -44,19 +37,22 @@
 
     Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
     Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
-    if has('nvim')
-        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        Plug 'zchee/deoplete-go', { 'do': 'make'}
-    else
-        Plug 'Shougo/neocomplete'
-    endif
+    " if has('nvim')
+    "     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    "     Plug 'zchee/deoplete-go', { 'do': 'make'}
+    " else
+    "     Plug 'Shougo/neocomplete'
+    " endif
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+
     Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-    " Plug 'Shougo/neosnippet'
-    " Plug 'Shougo/neosnippet-snippets'
-    " Plug 'SirVer/ultisnips'
-    " Plug 'Valloric/YouCompleteMe'
-    " Plug 'scrooloose/syntastic'
+    Plug 'Valloric/YouCompleteMe'
     Plug 'w0rp/ale'
+
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'tfnico/vim-gradle'
 
     " javascript
     " Plug 'pangloss/vim-javascript'
@@ -74,7 +70,7 @@
     " Plug 'editorconfig/editorconfig-vim'
     "
     " Robot framework
-    Plug 'mfukar/robotframework-vim'
+    " Plug 'mfukar/robotframework-vim'
 
     " Typescript plugins
     Plug 'leafgarland/typescript-vim'
@@ -88,7 +84,7 @@ try
 catch
     echom 'colorscheme solarized not found'
 endtry
- 
+
 " } color scheme
 
 " junegunn/fzf {
@@ -133,22 +129,35 @@ nmap <leader>nc :NERDTreeCWD<cr>
 nmap <leader>nt :NERDTreeToggle<cr>
 " } NERDTree
 
-
-"------------------------------------------------------------------------------
-" BufExplorer
-"------------------------------------------------------------------------------
-
-" Shortcuts, type <leader>l to quickly navigate to necessary buffer
-" map <leader>l :BufExplorer<cr>
-" imap <leader>l <esc>:BufExplorer<cr>
-" vmap <leader>l <esc>:BufExplorer<cr>
-
 " *** ale *** {
     let g:ale_open_list = 1
+    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+    let g:ale_java_javalsp_jar = '${HOME}/.vscode/extensions/georgewfraser.vscode-javac-0.2.4/out/fat-jar.jar'
     let g:ale_linters = {
     \   'go': ['gometalinter --disable-all'],
+    \   'groovy': [],
+    \   'java': [],
     \}
 " *** ale *** }
+"
+" *** LanguageClient *** {
+    " Automatically start language servers.
+    let g:LanguageClient_autoStart = 1
+
+    " " Required for operations modifying multiple buffers like rename.
+    " set hidden
+
+    let g:LanguageClient_serverCommands = {
+        \ 'groovy': ['java', '-jar', '$HOME/work/github.com/palantir/language-servers/groovy-language-server/build/libs/groovy-language-server-0.5.5.jar'],
+        \ 'javascript': ['javascript-typescript-stdio'],
+        \ }
+
+" *** LanguageClient *** }
+
+" vim-airline {
+    let g:airline#extensions#ale#enabled = 1
+    let g:airline_theme='solarized'
+" vim-arilien}
 
 " *** Fugitive *** {
     map ]] ]c
@@ -157,89 +166,6 @@ nmap <leader>nt :NERDTreeToggle<cr>
     map <leader>gst :Gstatus<cr>
     map <leader>dup :diffupdate<cr>
 " *** Fugitive *** }
-
-" *** Syntastic *** {
-    set statusline+=%#warningmsg#
-    " set statusline+=%{SyntasticStatuslineFlag()}
-    " set statusline+=%*
-
-    " let g:syntastic_aggregate_errors = 1
-    " let g:syntastic_always_populate_loc_list = 0
-    " let g:syntastic_auto_loc_list = 1
-    " let g:syntastic_check_on_open = 1
-    " let g:syntastic_check_on_wq = 0
-" *** Syntastic *** }
-
-" *** Deoplete *** {
-
-    let g:deoplete#enable_at_startup = 1
-    let g:doeplete#enable_smart_case = 1
-    let g:deoplete#sources#syntax#min_keyword_length = 2
-    let g:deoplete#lock_buffer_name_pattern = '\*ku\*'
-
-    " Let <Tab> also do completion
-    inoremap <silent><expr> <Tab>
-    \ pumvisible() ? "\<C-n>" :
-    \ "\<TAB>"
-
-    " Close the documentation window when completion is done
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-    " --- Deoplete-go --- {
-        let g:deoplete#sources#go#gocode_binary = $GOPATH . '/bin/gocode'
-        " let g:deoplete#sources#go#package_dot = 1
-        " let g:deoplete#sources#go#sort_class
-    " --- Deoplete-go --- }
-
-    " Close popup by <Space>.
-    " inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-
-    " Plugin key-mappings.
-    " inoremap <expr><C-g>     neocomplete#undo_completion()
-    "inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-    " Recommended key-mappings.
-    " <CR>: close popup and save indent.
-    " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    " function! s:my_cr_function()
-    "   return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-    " endfunction
-    " " <TAB>: completion.
-    " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    " " <C-h>, <BS>: close popup and delete backword char.
-    " inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-    " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-    " inoremap <expr><C-y>  neocomplete#close_popup()
-    " inoremap <expr><C-e>  neocomplete#cancel_popup()
-    " Close popup by <Space>.
-    "inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-
-
-" AutoComplPop like behavior.
-" let g:neocomplete#enable_auto_select = 1
-
-" Enable omni completion.
-    " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-"if !exists('g:neocomplete#sources#omni#input_patterns')
-"  let g:neocomplete#sources#omni#input_patterns = {}
-"endif
-"let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.'
-" if !exists('g:neocomplete#force_omni_input_patterns')
-"   let g:neocomplete#force_omni_input_patterns = {}
-" endif
-" let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.'
-" 
-"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" *** Deoplete *** }
-
 
 " Vim-go {
 let g:go_fmt_fail_silently = 1
@@ -252,29 +178,31 @@ let g:go_highlight_structs = 1
 let g:go_list_type = "location"
 " Vim-go }
 
-" Language client {
-    " Automatically start language servers.
-    let g:LanguageClient_autoStart = 1
+" UltiSnips {
+    function! g:UltiSnips_Complete()
+        call UltiSnips#ExpandSnippet()
+        if g:ulti_expand_res == 0
+            if pumvisible()
+                return "\<C-n>"
+            else
+                call UltiSnips#JumpForwards()
+                if g:ulti_jump_forwards_res == 0
+                return "\<TAB>"
+                endif
+            endif
+        endif
+        return ""
+    endfunction
 
-    " " Required for operations modifying multiple buffers like rename.
-    set hidden
+    au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+    let g:UltiSnipsJumpForwardTrigger="<tab>"
+    let g:UltiSnipsListSnippets="<c-e>"
+    " this mapping Enter key to <C-y> to chose the current highlight item
+    " and close the selection list, same as other IDEs.
+    " CONFLICT with some plugins like tpope/Endwise
+    inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-    let g:LanguageClient_serverCommands = {
-        \ 'groovy': ['java', '-jar', '$HOME/work/github.com/palantir/language-servers/groovy-language-server/build/libs/groovy-language-server-0.5.4.jar'],
-        \ 'javascript': ['javascript-typescript-stdio'],
-        \ }
-
-  augroup LanguageClient_config
-    autocmd!
-    autocmd User LanguageClientStarted setlocal signcolumn=yes
-    autocmd User LanguageClientStopped setlocal signcolumn=auto
-  augroup END
-
-  nnoremap <leader>sh :LanguageClientStart
-  nnoremap <leader>sl :LanguageClientStop
-  nnoremap <leader>sd call LanguageClient_textDocument_definition()
-" Language client }
-
+" UltiShips }
 
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_type_go = {
@@ -317,10 +245,8 @@ let g:tagbar_type_groovy = {
         \ 'f:fields:1'
     \ ]
     \ }
-" *** Gutentags {
-" let g:gutentags_project_root = ['jenkins-init.groovy']
-" *** Gutentags }
-"
+
+
 " *** Typescript {
 
 " *** typescript }

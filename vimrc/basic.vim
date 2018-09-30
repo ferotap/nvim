@@ -135,28 +135,28 @@ autocmd FileType help wincmd L
 " *** Search Settings *** }
 
 " Status Line {
-if has('statusline')
-    set laststatus=2
-
-    " set statusline=%<%t\                     " Filename
-    set statusline=%f                        " Filename
-    set statusline+=(%{&fo})                 " formatting options
-    set statusline+=%w%h%m                   " Options
-    set statusline+=%#warningmsg#
-    if has(':SyntasticCheck')
-    	set statusline+=%{SyntasticStatuslineFlag()}
-    endif
-    set statusline+=%*
-
-    if exists(':Gread')
-        set statusline+=%{fugitive#statusline()} " Git status 
-    endif
-    " set statusline+=\ [%{&ff}/%Y]            " Filetype
-    set statusline+=\ [%Y]            " Filetype
-    " set statusline+=\ [%{getcwd()}]          " Current dir
-    " set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
-    set statusline+=%=%-14.(%o:%l/%L,%c%V%)\      " Right aligned file nav info
-endif
+" if has('statusline')
+"     set laststatus=2
+"
+"     " set statusline=%<%t\                     " Filename
+"     set statusline=%f                        " Filename
+"     set statusline+=(%{&fo})                 " formatting options
+"     set statusline+=%w%h%m                   " Options
+"     set statusline+=%#warningmsg#
+"     if has(':SyntasticCheck')
+"     	set statusline+=%{SyntasticStatuslineFlag()}
+"     endif
+"     set statusline+=%*
+"
+"     if exists(':Gread')
+"         set statusline+=%{fugitive#statusline()} " Git status 
+"     endif
+"     " set statusline+=\ [%{&ff}/%Y]            " Filetype
+"     set statusline+=\ [%Y]            " Filetype
+"     " set statusline+=\ [%{getcwd()}]          " Current dir
+"     " set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
+"     set statusline+=%=%-14.(%o:%l/%L,%c%V%)\      " Right aligned file nav info
+" endif
 
 " Format the status line
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
