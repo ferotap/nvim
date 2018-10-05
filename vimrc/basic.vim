@@ -66,6 +66,7 @@ autocmd FileType help wincmd L
 
     inoremap <C-x> <nop>
     inoremap jk <esc>
+    tnoremap jk <C-\><C-n>
     nnoremap Y y$
     nnoremap <leader>le :set listchars-=eol:↲<CR>
     nnoremap <leader>lE :set listchars+=eol:↲<CR>

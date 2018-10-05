@@ -136,6 +136,8 @@ nmap <leader>nt :NERDTreeToggle<cr>
     let g:ale_linters = {
     \   'go': ['gometalinter --disable-all'],
     \   'groovy': [],
+    \   'c': [],
+    \   'cpp': [],
     \   'java': [],
     \}
 " *** ale *** }
