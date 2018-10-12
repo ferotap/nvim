@@ -37,18 +37,21 @@
 
     Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
     Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
-    " if has('nvim')
-    "     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    "     Plug 'zchee/deoplete-go', { 'do': 'make'}
-    " else
-    "     Plug 'Shougo/neocomplete'
-    " endif
-    Plug 'SirVer/ultisnips'
-    Plug 'honza/vim-snippets'
+    if exists('use_ale')
+        Plug 'w0rp/ale'
+        if has('nvim')
+            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+            Plug 'zchee/deoplete-go', { 'do': 'make'}
+        else
+            Plug 'Shougo/neocomplete'
+        endif
+    else
+        Plug 'Valloric/YouCompleteMe'
+        Plug 'SirVer/ultisnips'
+        Plug 'honza/vim-snippets'
+    endif
 
-    Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'Valloric/YouCompleteMe'
-    Plug 'w0rp/ale'
+    " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -129,30 +132,18 @@ nmap <leader>nc :NERDTreeCWD<cr>
 nmap <leader>nt :NERDTreeToggle<cr>
 " } NERDTree
 
-" *** ale *** {
-    let g:ale_open_list = 1
-    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-    let g:ale_java_javalsp_jar = '${HOME}/.vscode/extensions/georgewfraser.vscode-javac-0.2.4/out/fat-jar.jar'
-    let g:ale_linters = {
-    \   'go': ['gometalinter --disable-all'],
-    \   'groovy': [],
-    \   'c': [],
-    \   'cpp': [],
-    \   'java': [],
-    \}
-" *** ale *** }
 "
 " *** LanguageClient *** {
     " Automatically start language servers.
-    let g:LanguageClient_autoStart = 1
+    " let g:LanguageClient_autoStart = 1
 
     " " Required for operations modifying multiple buffers like rename.
     " set hidden
 
-    let g:LanguageClient_serverCommands = {
-        \ 'groovy': ['java', '-jar', '$HOME/work/github.com/palantir/language-servers/groovy-language-server/build/libs/groovy-language-server-0.5.5.jar'],
-        \ 'javascript': ['javascript-typescript-stdio'],
-        \ }
+    " let g:LanguageClient_serverCommands = {
+    "     \ 'groovy': ['java', '-jar', '$HOME/work/github.com/palantir/language-servers/groovy-language-server/build/libs/groovy-language-server-0.5.5.jar'],
+    "     \ 'javascript': ['javascript-typescript-stdio'],
+    "     \ }
 
 " *** LanguageClient *** }
 
@@ -180,31 +171,13 @@ let g:go_highlight_structs = 1
 let g:go_list_type = "location"
 " Vim-go }
 
-" UltiSnips {
-    function! g:UltiSnips_Complete()
-        call UltiSnips#ExpandSnippet()
-        if g:ulti_expand_res == 0
-            if pumvisible()
-                return "\<C-n>"
-            else
-                call UltiSnips#JumpForwards()
-                if g:ulti_jump_forwards_res == 0
-                return "\<TAB>"
-                endif
-            endif
-        endif
-        return ""
-    endfunction
-
-    au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-    let g:UltiSnipsJumpForwardTrigger="<tab>"
-    let g:UltiSnipsListSnippets="<c-e>"
-    " this mapping Enter key to <C-y> to chose the current highlight item
-    " and close the selection list, same as other IDEs.
-    " CONFLICT with some plugins like tpope/Endwise
-    inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" UltiShips }
+" Linting and completion configuration {
+if exists('use_ale')
+    exec 'source ' . expand('<sfile>:p:h') . '/ale_deo.vim'
+else
+    exec 'source ' . expand('<sfile>:p:h') . '/ycm_ulti.vim'
+endif
+" Linting and completion configuration }
 
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_type_go = {

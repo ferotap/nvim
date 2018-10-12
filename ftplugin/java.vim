@@ -3,7 +3,6 @@
 " GoTo
 nnoremap <leader>gd :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>gD :YcmCompleter GoToDeclaration<CR>
-nnoremap <leader>gi :YcmCompleter GoToImplementation<CR>
 nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
 " GoTo
 
