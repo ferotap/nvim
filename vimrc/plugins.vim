@@ -37,18 +37,32 @@
 
     Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
     Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
-    if exists('use_ale')
+
+    if !exists('g:lsp_support')
+        let g:lsp_support='ycm'
+    endif
+    if g:lsp_support ==? 'ale'
         Plug 'w0rp/ale'
         if has('nvim')
             Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+            Plug 'zchee/deoplete-clang',
             Plug 'zchee/deoplete-go', { 'do': 'make'}
+            Plug 'Shougo/neosnippet.vim'
+            Plug 'Shougo/neosnippet-snippets'
         else
             Plug 'Shougo/neocomplete'
         endif
-    else
+    elseif g:lsp_support ==? 'ycm'
         Plug 'Valloric/YouCompleteMe'
         Plug 'SirVer/ultisnips'
         Plug 'honza/vim-snippets'
+    elseif g:lsp_support ==? 'coc'
+        Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+        Plug 'zchee/deoplete-clang',
+        Plug 'zchee/deoplete-go', { 'do': 'make'}
+        Plug 'Shougo/neosnippet.vim'
+        Plug 'Shougo/neosnippet-snippets'
     endif
 
     " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
@@ -172,10 +186,12 @@ let g:go_list_type = "location"
 " Vim-go }
 
 " Linting and completion configuration {
-if exists('use_ale')
+if g:lsp_support ==? 'ale'
     exec 'source ' . expand('<sfile>:p:h') . '/ale_deo.vim'
-else
+elseif g:lsp_support ==? 'ycm'
     exec 'source ' . expand('<sfile>:p:h') . '/ycm_ulti.vim'
+elseif g:lsp_support ==? 'coc'
+    exec 'source ' . expand('<sfile>:p:h') . '/coc.vim'
 endif
 " Linting and completion configuration }
 

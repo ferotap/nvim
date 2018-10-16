@@ -1,0 +1,10 @@
+{
+    "coc.preferences.noselect" : false,
+    "languageserver": {
+        "clangd": {
+            "command": "clangd",
+            "filetypes": ["c", "cpp", "objc", "objcpp"]
+        }
+
+    }
+}

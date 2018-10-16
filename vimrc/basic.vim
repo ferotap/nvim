@@ -6,8 +6,9 @@ let g:mapleader = ","
 " disable python2 support
 let g:loaded_python_provider=1
 
-" use the specific python3 version. Managed by pyenv.
+" use the specific python versions. Managed by virtualenv
 let g:python3_host_prog=$HOME.'/venv/p3/bin/python'
+let g:python_host_prog=$HOME.'/venv/p2/bin/python'
 
 " Open help in a vertical split
 autocmd FileType help wincmd L
