@@ -38,8 +38,9 @@
     Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
     Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
 
+    Plug 'sbdchd/neoformat'
     if !exists('g:lsp_support')
-        let g:lsp_support='ycm'
+        let g:lsp_support='coc'
     endif
     if g:lsp_support ==? 'ale'
         Plug 'w0rp/ale'
@@ -58,11 +59,13 @@
         Plug 'honza/vim-snippets'
     elseif g:lsp_support ==? 'coc'
         Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        Plug 'zchee/deoplete-clang',
-        Plug 'zchee/deoplete-go', { 'do': 'make'}
-        Plug 'Shougo/neosnippet.vim'
-        Plug 'Shougo/neosnippet-snippets'
+        Plug 'SirVer/ultisnips'
+        Plug 'honza/vim-snippets'
+        " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+        " Plug 'zchee/deoplete-clang',
+        " Plug 'zchee/deoplete-go', { 'do': 'make'}
+        " Plug 'Shougo/neosnippet.vim'
+        " Plug 'Shougo/neosnippet-snippets'
     endif
 
     " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }

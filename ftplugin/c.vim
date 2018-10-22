@@ -1,7 +1,22 @@
 let path = expand('<sfile>:p:h')
 exec 'source' path . '/cmake.vim'
 
-if exists('g:use_ale')
+" vim-clang-format
+let g:clang_format#style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "C++14"}
+
+" map to <Leader>cf in C++ code
+nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+vnoremap <buffer><Leader>cf :ClangFormat<CR>
+
+" if you install vim-operator-user
+autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+" Toggle auto formatting:
+nmap <Leader>C :ClangFormatAutoToggle<CR>
+if g:lsp_support ==? 'coc'
 else
 
     " YcmCompleter subcommands {
