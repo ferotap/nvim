@@ -40,7 +40,7 @@
 
     Plug 'sbdchd/neoformat'
     if !exists('g:lsp_support')
-        let g:lsp_support='coc'
+        let g:lsp_support='ycm'
     endif
     if g:lsp_support ==? 'ale'
         Plug 'w0rp/ale'
