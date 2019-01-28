@@ -4,18 +4,18 @@ let mapleader = ","
 let g:mapleader = ","
 
 " disable python2 support
-" let g:loaded_python_provider=1
+let g:loaded_python_provider=1
 
 " use the specific python versions. Managed by virtualenv
-let g:python3_host_prog=$HOME.'/venv/p3/bin/python'
-let g:python2_host_prog=$HOME.'/venv/p2/bin/python'
+let g:python3_host_prog='/usr/bin/python3'
+" let g:python2_host_prog=$HOME.'/venv/p2/bin/python'
 
 " Open help in a vertical split
 autocmd FileType help wincmd L
 " *** Basic Settings *** {
 
     set pastetoggle=<F2>
-    set scrolloff=15
+    set scrolloff=10
     set showmatch
 
     " --- tabs and indent --- {
@@ -57,7 +57,7 @@ autocmd FileType help wincmd L
     " exapnd %% to current buffer dir
     cabbr <expr> %% expand('%:p:h')
     " capitalize the word last edited
-    inoremap <C-y> <esc>gUiw`]a
+    inoremap <C-0> <esc>gUiw`]a
 
     " visual line down/up/end/start for wrapped lines
     noremap  <buffer> <silent> k gk
@@ -65,7 +65,7 @@ autocmd FileType help wincmd L
     noremap  <buffer> <silent> 0 g0
     noremap  <buffer> <silent> $ g$
 
-    inoremap <C-x> <nop>
+    " inoremap <C-x> <nop>
     inoremap jk <esc>
     tnoremap jk <C-\><C-n>
     nnoremap Y y$

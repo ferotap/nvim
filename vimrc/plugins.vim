@@ -1,8 +1,6 @@
 " vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
-" Load pathogen paths
-" call pathogen#infect('~/.vim_go_runtime/bundle/forked/{}')
-" call pathogen#infect('~/.vim_go_runtime/bundle/pristine/{}')
-" call pathogen#helptags()
+
+let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
 " *** Plugin Management *** {
 
@@ -20,85 +18,72 @@
         Plug 'tpope/vim-sensible'
     endif
     "
-    " Plug 'neomake/neomake'
-    " Plug 'gregsexton/gitv'
     Plug 'airblade/vim-gitgutter'
 
     Plug 'scrooloose/nerdtree'
-    " Plug 'scrooloose/nerdcommenter'
-    " Plug 'jlanzarotta/bufexplorer'
 
     Plug 'majutsushi/tagbar'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
 
     Plug 'altercation/vim-colors-solarized'
-    " Plug 'noah/vim256-color'
 
-    Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
-    Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
-
-    Plug 'sbdchd/neoformat'
-    if !exists('g:lsp_support')
-        let g:lsp_support='ycm'
-    endif
-    if g:lsp_support ==? 'ale'
-        Plug 'w0rp/ale'
-        if has('nvim')
-            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-            Plug 'zchee/deoplete-clang',
-            Plug 'zchee/deoplete-go', { 'do': 'make'}
-            Plug 'Shougo/neosnippet.vim'
-            Plug 'Shougo/neosnippet-snippets'
-        else
-            Plug 'Shougo/neocomplete'
-        endif
-    elseif g:lsp_support ==? 'ycm'
-        Plug 'Valloric/YouCompleteMe'
-        Plug 'SirVer/ultisnips'
-        Plug 'honza/vim-snippets'
-    elseif g:lsp_support ==? 'coc'
-        Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-        Plug 'SirVer/ultisnips'
-        Plug 'honza/vim-snippets'
-        " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        " Plug 'zchee/deoplete-clang',
-        " Plug 'zchee/deoplete-go', { 'do': 'make'}
-        " Plug 'Shougo/neosnippet.vim'
-        " Plug 'Shougo/neosnippet-snippets'
-    endif
-
-    " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'tfnico/vim-gradle'
 
-    " javascript
-    " Plug 'pangloss/vim-javascript'
-
     " plantuml
     Plug 'aklt/plantuml-syntax'
 
-    " Restructured Text
-    " Plug 'Rykka/riv.vim'
     " Pandoc
     Plug 'vim-pandoc/vim-pandoc'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'vim-pandoc/vim-pandoc-after'
 
-    " Plug 'editorconfig/editorconfig-vim'
-    "
-    " Robot framework
-    " Plug 'mfukar/robotframework-vim'
 
-    " Typescript plugins
-    Plug 'leafgarland/typescript-vim'
+    " Plug 'w0rp/ale'
+    Plug 'ncm2/ncm2'
+    Plug 'roxma/nvim-yarp'
+    Plug 'ncm2/ncm2-bufword'
+    Plug 'ncm2/ncm2-path'
+    Plug 'ncm2/ncm2-vim-lsp'
+    Plug 'ncm2/ncm2-jedi'
+    Plug 'ncm2/ncm2-ultisnips'
+
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/vim-lsp'
+
     call plug#end()
 " }
 
+if exists("g:ncm2#popup_delay")
+    execute 'source ' . s:path . '/ncm2.vim'
+endif
+
+if has("g:ale_linters_explicit")
+    " Only run linters named in ale_linters settings.
+    let g:ale_linters_explicit = 1
+    let g:ale_fixers = {
+        \   'python': ['black', 'autopep8'],
+    \}
+    let g:ale_linters = {
+        \   'python': ['pyls', 'flake8', 'pylint'],
+    \}
+endif
+
+" enable ncm2 for all buffers
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" IMPORTANT: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+
+
 " *** Color scheme *** {
 try
+    let g:solarized_termcolors=16
     colorscheme solarized
     set background=dark
 catch
@@ -149,25 +134,11 @@ nmap <leader>nc :NERDTreeCWD<cr>
 nmap <leader>nt :NERDTreeToggle<cr>
 " } NERDTree
 
-"
-" *** LanguageClient *** {
-    " Automatically start language servers.
-    " let g:LanguageClient_autoStart = 1
-
-    " " Required for operations modifying multiple buffers like rename.
-    " set hidden
-
-    " let g:LanguageClient_serverCommands = {
-    "     \ 'groovy': ['java', '-jar', '$HOME/work/github.com/palantir/language-servers/groovy-language-server/build/libs/groovy-language-server-0.5.5.jar'],
-    "     \ 'javascript': ['javascript-typescript-stdio'],
-    "     \ }
-
-" *** LanguageClient *** }
 
 " vim-airline {
     let g:airline#extensions#ale#enabled = 1
     let g:airline_theme='solarized'
-" vim-arilien}
+" vim-ariline}
 
 " *** Fugitive *** {
     map ]] ]c
@@ -176,27 +147,6 @@ nmap <leader>nt :NERDTreeToggle<cr>
     map <leader>gst :Gstatus<cr>
     map <leader>dup :diffupdate<cr>
 " *** Fugitive *** }
-
-" Vim-go {
-let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = "goimports"
-" By default syntax-highlighting for Functions, Methods and Structs is disabled.
-" Let's enable them!
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_list_type = "location"
-" Vim-go }
-
-" Linting and completion configuration {
-if g:lsp_support ==? 'ale'
-    exec 'source ' . expand('<sfile>:p:h') . '/ale_deo.vim'
-elseif g:lsp_support ==? 'ycm'
-    exec 'source ' . expand('<sfile>:p:h') . '/ycm_ulti.vim'
-elseif g:lsp_support ==? 'coc'
-    exec 'source ' . expand('<sfile>:p:h') . '/coc.vim'
-endif
-" Linting and completion configuration }
 
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_type_go = {
@@ -241,6 +191,17 @@ let g:tagbar_type_groovy = {
     \ }
 
 
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+
+if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+endif
 " *** Typescript {
 
 " *** typescript }
