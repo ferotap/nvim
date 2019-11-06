@@ -7,10 +7,10 @@ let mapleader = ","
 let g:mapleader = ","
 
 " disable pythonx support
-let g:loaded_python3_provider=1
+let g:loaded_python2_provider=1
 
-let g:python_host_prog=$HOME.'/work/venv/p2/bin/python'
-" let g:python3_host_prog=$HOME.'/work/venv/p3/bin/python'
+" let g:python_host_prog=$HOME.'/work/venv/p2/bin/python'
+let g:python3_host_prog=$HOME.'/work/venv/p3/bin/python'
 
 
 " Open help in a vertical split
@@ -33,6 +33,7 @@ autocmd FileType help wincmd L
         " 1 tab == 4 spaces
         set shiftwidth=4
         set tabstop=4
+        set softtabstop=4
 
         " Round indent to multiple of 'shiftwidth' for > and < commands
         set shiftround
@@ -176,7 +177,7 @@ execute 'source ' . s:path . '/vimrc/filetypes.vim'
     Plug 'Yggdroot/indentLine'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
-    Plug 'tfnico/vim-gradle'
+    " Plug 'tfnico/vim-gradle'
 
     " plantuml
     Plug 'aklt/plantuml-syntax'
@@ -189,7 +190,7 @@ execute 'source ' . s:path . '/vimrc/filetypes.vim'
     " Linting
     Plug 'w0rp/ale'
 
-    " code completion
+    code completion
     Plug 'ncm2/ncm2'
     Plug 'roxma/nvim-yarp'
     Plug 'ncm2/ncm2-bufword'
@@ -201,33 +202,23 @@ execute 'source ' . s:path . '/vimrc/filetypes.vim'
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
     Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/vim-lsp'
 
     call plug#end()
 " }
-" Plugin configuration {
-" lsp {
-let g:lsp_enabled = 0
-let g:lsp_signs_enabled = 1         " enable signs
-let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+" terminal {
+    nnoremap <F5> :split<CR> :term python %<CR>
 
-if executable('pyls')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-endif
-" lsp }
+" terminal }
 " ale {
     " Only run linters named in ale_linters settings.
     let g:ale_linters_explicit = 1
     let g:ale_lint_on_text_changed = 0
-    let g:ale_python_pylint_options='--rcfile /mnt/c/boris/repo/current/Build/ConsoleBuild/pylintrc'
+    " let g:ale_python_pylint_options='--rcfile /mnt/c/boris/repo/current/Build/ConsoleBuild/pylintrc'
     let g:ale_python_pylint_use_global = 0
     " mappings {
-        nnoremap <leader>dd :ALEGoToDefinition<CR>
+        nmap <F12> <Plug>(ale_go_to_definition)
+        nmap <S-F12> <Plug>(ale_go_to_definition_in_vsplit)
+        nmap <F1> <Plug>(ale_hover)
     " mappings }
     let g:ale_python_pyls_config = {
       \   'pyls': {
@@ -246,13 +237,31 @@ endif
         \   'python': ['pyls'],
     \}
 " ale }
-" ncm {
-" enable ncm2 for all buffers
-" autocmd BufEnter * call ncm2#enable_for_buffer()
 
-" IMPORTANT: :help Ncm2PopupOpen for more information
-set completeopt=noinsert,menuone,noselect
-" }
+" ncm2 {
+if exists(':Ncm2PopupOpen')
+    augroup NCM2
+        autocmd!
+        " enable ncm2 for all buffers
+        autocmd BufEnter * call ncm2#enable_for_buffer()
+        " :help Ncm2PopupOpen for more information
+        set completeopt=noinsert,menuone,noselect
+        " When the <Enter> key is pressed while the popup menu is visible, it only
+        " hides the menu. Use this mapping to close the menu and also start a new line.
+        inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+        " uncomment this block if you use vimtex for LaTex
+        " autocmd Filetype tex call ncm2#register_source({
+        "           \ 'name': 'vimtex',
+        "           \ 'priority': 8,
+        "           \ 'scope': ['tex'],
+        "           \ 'mark': 'tex',
+        "           \ 'word_pattern': '\w+',
+        "           \ 'complete_pattern': g:vimtex#re#ncm2,
+        "           \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+        "           \ })
+    augroup END
+endif
+" ncm2 }
 
 " *** Color scheme *** {
 try
