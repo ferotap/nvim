@@ -1,21 +1,15 @@
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
 " this file
 let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
-
-" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
-
-" linting, completion, lsp setup: ycm, ncm2 or coc. Maybe set on command line
-if !exists('g:lsp_support')
-    let g:lsp_support = "ncm2"
-endif
 
 let mapleader = ","
 let g:mapleader = ","
 
 " disable pythonx support
-let g:loaded_python2_provider=1
+let g:loaded_python_provider=1
 
-" let g:python_host_prog=$HOME.'/venv/p2/bin/python'
-let g:python3_host_prog=$HOME.'/venv/p3/bin/python'
+let g:python3_host_prog=$HOME.'/venv/nvim/bin/python'
+" let g:python3_host_prog=getcwd() . '/.venv/bin/python'
 
 
 " Open help in a vertical split
@@ -42,19 +36,15 @@ autocmd FileType help wincmd L
 
     " --- display of special characters {
         set list
-        set listchars=trail:•,precedes:«,extends:»,tab:▸\ 
-    " --- display of special characters }
+        set listchars=trail:•,precedes:«,tab:▸\ ,extends:»
+        " --- display of special characters }
 
     " --- Wild Menu --- {
         set wildmenu                    " Show list instead of just completing
         set wildmode=list:longest,full
         " Ignore compiled files
         set wildignore=*.o,*~,*.pyc
-        if has("win16") || has("win32")
-            set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Storeelse
-        else
-            set wildignore+=.git\*,.hg\*,.svn\*
-        endif
+        set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Storeelse
     " }
 
 " *** Basic Settings *** }
@@ -126,19 +116,6 @@ autocmd FileType help wincmd L
         autocmd FileType go,python,c,cpp,java call SetProgrammingKbd()
     " }
 
-    " --- quickfix and locaction lists --- {
-
-        map <leader>lh :lopen<CR>
-        map <leader>ll :lclose<CR>
-        map <leader>lj :lnext<CR>
-        map <leader>lk :lprev<CR>
-
-        map <leader>ch :copen<CR>
-        map <leader>cl :cclose<CR>
-        map <leader>cj :cnext<CR>
-        map <leader>ck :cprev<CR>
-
-    " }
     " --- terminal --- {
             nnoremap <F5> :split<CR> :term python %<CR>
     " --- terminal --- }
@@ -189,7 +166,7 @@ let NERDTreeAutoCenter = 1
 
 " Open NERDTree on startup, when no file has been specified
 if !exists("g:gui_oni")
-    autocmd VimEnter * if !argc() | NERDTree | endif
+    autocmd VimEnter * if argc() == 0 | NERDTree | endif
 endif
 
 " Locate current file in hierarchy
@@ -223,7 +200,7 @@ nmap <leader>nt :NERDTreeToggle<cr>
 
     Plug 'altercation/vim-colors-solarized'
 
-
+    Plug 'jmcantrell/vim-virtualenv'
     Plug 'airblade/vim-gitgutter'
     Plug 'Yggdroot/indentLine'
     Plug 'vim-airline/vim-airline'
@@ -239,29 +216,20 @@ nmap <leader>nt :NERDTreeToggle<cr>
     " Plug 'vim-pandoc/vim-pandoc-after'
 
     " " Linting
-    Plug 'w0rp/ale'
-
-    " code completion
-    if g:lsp_support ==? "ycm"
-        echom "using ycm"
-        Plug 'Valloric/YouCompleteMe'
-    elseif g:lsp_support ==? "ncm2"
-        echom "using ncm2"
-        Plug 'ncm2/ncm2'
-        Plug 'roxma/nvim-yarp'
-        Plug 'ncm2/ncm2-vim-lsp'
-        Plug 'ncm2/ncm2-bufword'
-        Plug 'ncm2/ncm2-path'
-        Plug 'ncm2/ncm2-jedi'
-        Plug 'ncm2/ncm2-ultisnips'
-    else
-        echom "undefined lsp_support: " . g:lsp_support
-    endif
+    " Plug 'w0rp/ale'
+    " Use release branch (recommend)
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}    " code completion
 
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
     Plug 'prabirshrestha/async.vim'
     Plug 'prabirshrestha/vim-lsp'
+
+    " golang
+    Plug 'fatih/vim-go'
+    " Ruby & Vagrant
+    Plug 'vim-ruby/vim-ruby'
+    Plug 'hashivim/vim-vagrant'
 
     call plug#end()
 " }
@@ -279,7 +247,7 @@ endtry
 
 " *** vim-airline *** {
     let g:airline_powerline_fonts = 1
-    let g:airline#extensions#ale#enabled = 1
+    " let g:airline#extensions#ale#enabled = 1
     let g:airline_theme='solarized'
 " *** vim-ariline *** }
 
@@ -297,73 +265,62 @@ else
 endif
 
 " }
+" coc {
+    set nowritebackup
+    autocmd FileType json syntax match Comment +\/\/.\+$+
+    " use <tab> for trigger completion and navigate to the next complete item
+    " function! s:check_back_space() abort
+    "     let col = col('.') - 1
+    "     return !col || getline('.')[col - 1]  =~ '\s'
+    " endfunction
+
+    " inoremap <silent><expr> <Tab>
+    "     \ pumvisible() ? "\<C-n>" :
+    "     \ <SID>check_back_space() ? "\<Tab>" :
+    "     \ coc#refresh()" coc }
+    inoremap <silent><expr> <TAB>
+        \ pumvisible() ? coc#_select_confirm() :
+        \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+
+    function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
+    let g:coc_snippet_next = '<tab>'
 
 " ale {
-if exists(':ALEComplete')
-    echom 'Configuring ALE'
-    " Only run linters named in ale_linters settings.
-    let g:ale_linters_explicit = 1
-    let g:ale_lint_on_text_changed = 0
-    " let g:ale_python_pylint_options='--rcfile /mnt/c/boris/repo/current/Build/ConsoleBuild/pylintrc'
-    let g:ale_python_pylint_use_global = 0
-    " mappings {
-        nmap <F12> <Plug>(ale_go_to_definition)
-        nmap <S-F12> <Plug>(ale_go_to_definition_in_vsplit)
-        nmap <F1> <Plug>(ale_hover)
-    " mappings }
-    let g:ale_python_pyls_config = {
-      \   'pyls': {
-      \     'plugins': {
-      \       'pycodestyle': {
-      \         'enabled': v:false
-      \       }
-      \     }
-      \   },
-      \ }
-    let g:ale_loclist_msg_format='%linter% -%code: %%s'
-    let g:ale_fixers = {
-        \   'python': ['black', 'autopep8'],
-    \}
-    let g:ale_linters = {
-        \   'python': ['pyls'],
-    \}
-endif
+"     " Only run linters named in ale_linters settings.
+"     let g:ale_linters_explicit = 1
+"     let g:ale_lint_on_text_changed = 0
+"     " let g:ale_python_pylint_options='--rcfile /mnt/c/boris/repo/current/Build/ConsoleBuild/pylintrc'
+"     let g:ale_python_pylint_use_global = 0
+"     " mappings {
+"         nmap <F12> <Plug>(ale_go_to_definition)
+"         nmap <S-F12> <Plug>(ale_go_to_definition_in_vsplit)
+"         nmap <F1> <Plug>(ale_hover)
+"     " mappings }
+"     let g:ale_python_pyls_config = {
+"       \   'pyls': {
+"       \     'plugins': {
+"       \       'pycodestyle': {
+"       \         'enabled': v:false
+"       \       }
+"       \     }
+"       \   },
+"       \ }
+"     " let g:ale_lsp_show_message_format='%linter% -%code: %%s'
+"     let g:ale_loclist_msg_format='%linter% -%code: %%s'
+"     let g:ale_fixers = {
+"         \   'python': ['yapf'],
+"     \}
+"     let g:ale_linters = {
+"         \   'python': ['pylint', 'flake8', 'mypy'],
+"     \}
 " ale }
 
-" *** ncm2 *** {
-if g:lsp_support ==? "ncm2"
-    echom 'Configuring ncm2'
-    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    inoremap <C-space> <c-r>=ncm2#manual_trigger()<cr>
-     " imap <expr> <CR> (ncm2#menu_selected() ?
-     " \    (ncm2_ultisnips#completed_is_snippet() ?
-     " \        "\<Plug>(ncm2_ultisnips_expand_completed)" : "\<c-y>") :
-     " \    (pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"))
-     " inoremap <silent> <expr> <CR>
-     " \   pumvisible() ?
-     " \   (!empty(v:completed_item) && ncm2_ultisnips#completed_is_snippet())?
-     " \   ncm2_ultisnips#expand() : ncm2#expand()
-
-    set shortmess+=c
-
-    let g:ncm2#manual_complete_length = 1
-    let g:ncm2#complete_length = 2
-    let g:ncm2#matcher = "substrfuzzy"
-    let g:ncm2#sorter = "abbrfuzzy"
-    augrou NCM2
-        autocmd!
-        " enable ncm2 for all buffers
-        " au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-        " au User Ncm2PopupClose set completeopt=menuone
-        autocmd BufEnter * call ncm2#enable_for_buffer()
-        " :help Ncm2PopupOpen for more information
-        " When the <Enter> key is pressed while the popup menu is visible, it only
-        " hides the menu. Use this mapping to close the menu and also start a new line.
-        ! inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-    augroup END
-endif
-" *** ncm2 *** }
 
 " *** UltiSnips *** {
     " P" UltiSnips triggering
@@ -374,9 +331,3 @@ endif
 " let g:UltiSnipsRemoveSelectModeMappings = 0
 " }
 
-" *** YCM *** {
-if g:lsp_support ==? "ycm"
-  let g:ycm_add_preview_to_completeopt = 1
-  let g:ycm_autoclose_preview_window_after_completion = 0
-endif
-" *** YCM *** }
