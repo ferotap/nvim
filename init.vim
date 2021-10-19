@@ -199,6 +199,7 @@ nmap <leader>nt :NERDTreeToggle<cr>
     Plug 'junegunn/fzf.vim'
 
     Plug 'altercation/vim-colors-solarized'
+    Plug 'morhetz/gruvbox'
 
     Plug 'jmcantrell/vim-virtualenv'
     Plug 'airblade/vim-gitgutter'
@@ -215,24 +216,54 @@ nmap <leader>nt :NERDTreeToggle<cr>
     " Plug 'vim-pandoc/vim-pandoc-syntax'
     " Plug 'vim-pandoc/vim-pandoc-after'
 
-    " " Linting
-    " Plug 'w0rp/ale'
-    " Use release branch (recommend)
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}    " code completion
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'onsails/vimway-lsp-diag.nvim'
 
-    Plug 'SirVer/ultisnips'
-    Plug 'honza/vim-snippets'
-    Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/vim-lsp'
-
-    " golang
-    Plug 'fatih/vim-go'
-    " Ruby & Vagrant
-    Plug 'vim-ruby/vim-ruby'
-    Plug 'hashivim/vim-vagrant'
+    " Completion
+    Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+    Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+    Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
 
     call plug#end()
 " }
+
+" --- Lua --- {
+lua << EOF
+require('lspconfig').pylsp.setup{
+    settings = {
+        pylsp = {
+            cmd = {'pylsp', '--verbose', '--log-file', '~/pylsp.log'},
+            plugins = {
+                pylint = {
+                    enabled = true,
+                    args = {'--rcfile', '/home/tapio/work/orc/infra/.pylintrc'}
+                },
+                pyflakes = {
+                    enabled = false
+                }
+            }
+        }
+    }
+}
+
+
+require("diaglist").init({
+    -- optional settings
+    -- below are defaults
+
+    -- increase for noisy servers
+    debounce_ms = 50,
+
+    -- list in quickfix only diagnostics from clients
+    -- attached to a current buffer
+    -- if false, all buffers' clients diagnostics is collected
+    buf_clients_only = true,
+})
+EOF
+
+" --- }
+nnoremap <leader>dw <cmd>lua require('diaglist').open_all_diagnostics()<cr>
+nnoremap <leader>d0 <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
 
 " *** Color scheme *** {
 try
@@ -240,7 +271,7 @@ try
     colorscheme solarized
     set background=dark
 catch
-    echom 'colorscheme solarized not found'
+    echom 'colorscheme not found'
 endtry
 
 " } color scheme
@@ -265,69 +296,3 @@ else
 endif
 
 " }
-" coc {
-    set nowritebackup
-    autocmd FileType json syntax match Comment +\/\/.\+$+
-    " use <tab> for trigger completion and navigate to the next complete item
-    " function! s:check_back_space() abort
-    "     let col = col('.') - 1
-    "     return !col || getline('.')[col - 1]  =~ '\s'
-    " endfunction
-
-    " inoremap <silent><expr> <Tab>
-    "     \ pumvisible() ? "\<C-n>" :
-    "     \ <SID>check_back_space() ? "\<Tab>" :
-    "     \ coc#refresh()" coc }
-    inoremap <silent><expr> <TAB>
-        \ pumvisible() ? coc#_select_confirm() :
-        \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
-
-    function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
-
-    let g:coc_snippet_next = '<tab>'
-
-" ale {
-"     " Only run linters named in ale_linters settings.
-"     let g:ale_linters_explicit = 1
-"     let g:ale_lint_on_text_changed = 0
-"     " let g:ale_python_pylint_options='--rcfile /mnt/c/boris/repo/current/Build/ConsoleBuild/pylintrc'
-"     let g:ale_python_pylint_use_global = 0
-"     " mappings {
-"         nmap <F12> <Plug>(ale_go_to_definition)
-"         nmap <S-F12> <Plug>(ale_go_to_definition_in_vsplit)
-"         nmap <F1> <Plug>(ale_hover)
-"     " mappings }
-"     let g:ale_python_pyls_config = {
-"       \   'pyls': {
-"       \     'plugins': {
-"       \       'pycodestyle': {
-"       \         'enabled': v:false
-"       \       }
-"       \     }
-"       \   },
-"       \ }
-"     " let g:ale_lsp_show_message_format='%linter% -%code: %%s'
-"     let g:ale_loclist_msg_format='%linter% -%code: %%s'
-"     let g:ale_fixers = {
-"         \   'python': ['yapf'],
-"     \}
-"     let g:ale_linters = {
-"         \   'python': ['pylint', 'flake8', 'mypy'],
-"     \}
-" ale }
-
-
-" *** UltiSnips *** {
-    " P" UltiSnips triggering
-    let g:UltiSnipsExpandTrigger = '<C-j>'
-    let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-    let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-    let g:UltiSnipsSnippetsDir='.ultisnips'
-" let g:UltiSnipsRemoveSelectModeMappings = 0
-" }
-
